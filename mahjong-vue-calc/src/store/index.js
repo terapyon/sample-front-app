@@ -28,14 +28,21 @@ export default new Vuex.Store({
     // naki3: [],
     // naki4: [],
     // doraPies: [13],
-    roundWind: "nan",
-    playerWind: "sha",
-    isTsumo: true,
+    roundWind: "南",
+    playerWind: "西",
+    isTsumo: "ロン",
     isRiichi: false,
   },
   mutations: {
     SET_AGARI: function(state, index) {
       state.agariPiNum = index;
+    },
+    SET_REIICHI: function(state) {
+      if (state.isRiichi) {
+        state.isRiichi = false;
+      } else {
+        state.isRiichi = true;
+      }
     },
   },
   actions: {},

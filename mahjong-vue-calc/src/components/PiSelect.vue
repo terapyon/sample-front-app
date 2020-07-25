@@ -3,15 +3,20 @@
     <div>
       <PiObj v-for="(p, index) in pies" :key="index" :pi="p" :idx="index" />
     </div>
+    <div>
+      <BaObj />
+    </div>
   </v-container>
 </template>
 <script>
 import PiObj from "./PiObj";
+import BaObj from "./BaObj";
 export default {
   name: "PiSelect",
 
   components: {
-    PiObj
+    PiObj,
+    BaObj
   },
   data() {
     return {
