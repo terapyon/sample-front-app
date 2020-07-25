@@ -1,25 +1,42 @@
 <template>
   <v-row>
     <v-col cols="2">
-      <v-btn-toggle v-model="baSet" color="deep-purple">
-        <v-btn v-for="s in ba" :key="s" :value="s">{{ s }}</v-btn>
+      <v-btn-toggle :value="baSet" color="deep-purple">
+        <v-btn v-for="s in ba" :key="s" :value="s" @click="inputBa(s)">{{
+          s
+        }}</v-btn>
       </v-btn-toggle>
     </v-col>
     <v-col cols="4">
-      <v-btn-toggle v-model="kazeSet" color="deep-purple">
-        <v-btn v-for="s in kaze" :key="s" :value="s">{{ s }}</v-btn>
+      <v-btn-toggle :value="kazeSet" color="deep-purple">
+        <v-btn v-for="s in kaze" :key="s" :value="s" @click="inputKaze(s)">{{
+          s
+        }}</v-btn>
       </v-btn-toggle>
     </v-col>
     <v-col cols="2">
-      <v-btn @click="inputRiichi()" :disabled="isNaki" :color="isRiichi?  'deep-purple': ''">リーチ</v-btn>
+      <v-btn
+        @click="inputRiichi()"
+        :disabled="isNaki"
+        :color="isRiichi ? 'deep-purple' : ''"
+        >リーチ</v-btn
+      >
     </v-col>
     <v-col cols="2">
-      <v-btn-toggle v-model="isTsumo" color="deep-purple">
-        <v-btn v-for="s in tsumoRon" :key="s" :value="s">{{ s }}</v-btn>
+      <v-btn-toggle :value="isTsumo" color="deep-purple">
+        <v-btn
+          v-for="s in tsumoRon"
+          :key="s"
+          :value="s"
+          @click="inputTsumo(s)"
+          >{{ s }}</v-btn
+        >
       </v-btn-toggle>
     </v-col>
     <v-col cols="2">
-      <v-btn @click="doCalc()" :disabled="!isBaSetup" color="primary">計算</v-btn>
+      <v-btn @click="doCalc()" :disabled="!isBaSetup" color="primary"
+        >計算</v-btn
+      >
     </v-col>
   </v-row>
 </template>
@@ -31,7 +48,8 @@ export default {
     return {
       ba: ["東", "南"],
       kaze: ["東", "南", "西", "北"],
-      tsumoRon: ["ツモ", "ロン"]
+      tsumoRon: ["ツモ", "ロン"],
+      nowCalc: false,
     };
   },
   methods: {
@@ -40,7 +58,25 @@ export default {
         this.$store.commit("SET_REIICHI");
       }
     },
-    doCalc() {}
+    inputBa(ba) {
+      this.$store.commit("SET_BA", ba);
+    },
+    inputKaze(kaze) {
+      this.$store.commit("SET_KAZE", kaze);
+    },
+    inputTsumo(tsumoRon) {
+      this.$store.commit("SET_TSUMORON", tsumoRon);
+    },
+    doCalc() {
+      this.$store
+        .dispatch("doCalc", this.$store.state.pies)
+        .then(() => {
+          this.nowCalc = true;
+        })
+        .catch(() => {
+          console.log("Error of server calc");
+        });
+    },
   },
   computed: {
     baSet() {
@@ -60,8 +96,8 @@ export default {
     },
     isBaSetup() {
       return true; // TODO
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="stylus" scoped></style>

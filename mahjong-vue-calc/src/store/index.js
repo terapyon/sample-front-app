@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { Pi } from "../models";
+import CalcService from "@/services/CalcService.js";
 
 Vue.use(Vuex);
 
@@ -32,6 +33,7 @@ export default new Vuex.Store({
     playerWind: "西",
     isTsumo: "ロン",
     isRiichi: false,
+    result: "",
   },
   mutations: {
     SET_AGARI: function(state, index) {
@@ -44,7 +46,25 @@ export default new Vuex.Store({
         state.isRiichi = true;
       }
     },
+    SET_BA: function(state, ba) {
+      state.roundWind = ba;
+    },
+    SET_KAZE: function(state, kaze) {
+      state.playerWind = kaze;
+    },
+    SET_TSUMORON: function(state, tsumoRon) {
+      state.isTsumo = tsumoRon;
+    },
+    DO_CALC: function(state, data) {
+      state.result = data;
+    },
   },
-  actions: {},
+  actions: {
+    doCalc({ commit }, data) {
+      return CalcService.postCalc(data).then(() => {
+        commit("DO_CALC", data);
+      });
+    },
+  },
   modules: {},
 });

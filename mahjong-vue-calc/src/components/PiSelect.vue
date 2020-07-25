@@ -6,17 +6,22 @@
     <div>
       <BaObj />
     </div>
+    <div>
+      <Result />
+    </div>
   </v-container>
 </template>
 <script>
 import PiObj from "./PiObj";
 import BaObj from "./BaObj";
+import Result from "./Result";
 export default {
   name: "PiSelect",
 
   components: {
     PiObj,
-    BaObj
+    BaObj,
+    Result,
   },
   data() {
     return {
@@ -26,8 +31,8 @@ export default {
   computed: {
     pies() {
       return this.$store.state.pies;
-    }
-  }
+    },
+  },
 };
 </script>
 <style lang="stylus" scoped></style>
